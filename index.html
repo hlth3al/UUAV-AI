@@ -3,134 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UUAV-AI | پنل فرماندهی ناوبری و عملیات پهپاد زیرسطحی</title>
+    <title>پنل فرماندهی عملیات زپهپاد | هوش مصنوعی حسین لعلیان</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-main: #020b14;
-            --panel-bg: rgba(10, 25, 47, 0.85);
-            --border-ui: #1b3a5b;
-            --accent-cyan: #00f2fe;
-            --accent-blue: #4facfe;
-            --accent-green: #00ff88;
-            --accent-red: #ff3366;
-            --text-light: #e6f1ff;
-            --text-dim: #8892b0;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-light); font-size: 13px; padding: 15px; line-height: 1.6; }
-
-        .header { background: #07192f; border: 1px solid var(--accent-cyan); border-radius: 8px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; box-shadow: 0 0 15px rgba(0, 242, 254, 0.15); }
-        .header h1 { font-size: 18px; color: var(--accent-cyan); letter-spacing: 0.5px; }
-        .badge { background: rgba(0, 255, 136, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-
-        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; } }
-
-        .card { background: var(--panel-bg); border: 1px solid var(--border-ui); border-radius: 8px; padding: 15px; backdrop-filter: blur(5px); }
-        .card-title { font-size: 14px; font-weight: bold; color: var(--accent-blue); margin-bottom: 12px; border-bottom: 1px solid var(--border-ui); padding-bottom: 6px; }
-
-        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .metric-box { background: #041224; border: 1px solid var(--border-ui); padding: 10px; border-radius: 6px; }
-        .metric-box span { font-size: 11px; color: var(--text-dim); display: block; }
-        .metric-box strong { font-size: 16px; color: #fff; display: block; margin-top: 4px; }
-
-        .btn { background: #0f2d4e; color: #fff; border: 1px solid #1e4a7a; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 8px; text-align: right; font-size: 12px; transition: 0.2s; }
-        .btn:hover { border-color: var(--accent-cyan); background: #163f6d; }
-        .btn-danger { border-color: var(--accent-red); color: #ff99aa; }
-
-        .console { background: #030d1a; border: 1px solid var(--border-ui); border-radius: 6px; padding: 10px; height: 140px; overflow-y: auto; font-family: monospace; font-size: 11px; color: #00f2fe; }
-
-        /* Legal Box Style */
-        .legal-box {
-            background: rgba(7, 25, 47, 0.95);
-            border: 1px solid var(--accent-cyan);
-            border-right: 4px solid var(--accent-cyan);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            color: #ccd6f6;
-            line-height: 1.8;
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.1);
-        }
-        .legal-box h3 { color: var(--accent-cyan); margin-bottom: 10px; font-size: 14px; }
-        .legal-box p { margin-bottom: 10px; }
-
-        .footer-card { background: #040e1c; border: 1px solid var(--border-ui); padding: 15px 20px; border-radius: 6px; }
-        .footer-card code { color: var(--accent-cyan); font-size: 14px; font-weight: bold; }
+        :root { --bg: #0b0714; --panel: rgba(25,15,40,0.85); --purple: #a855f7; --cyan: #00e5ff; --text: #f8fafc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', sans-serif; }
+        body { background: var(--bg); color: var(--text); padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(168,85,247,0.3); padding-bottom: 15px; margin-bottom: 25px; }
+        h1 { color: var(--purple); font-size: 1.5rem; }
+        .back-btn { background: rgba(168,85,247,0.1); color: var(--purple); border: 1px solid var(--purple); padding: 8px 16px; border-radius: 8px; text-decoration: none; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: var(--panel); border: 1px solid rgba(168,85,247,0.2); border-radius: 12px; padding: 20px; }
+        .card h3 { color: var(--purple); margin-bottom: 10px; }
+        footer { text-align: center; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; color: #94a3b8; }
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <h1>🌊 UUAV-AI | پنل فرماندهی ناوبری و عملیات پهپاد زیرسطحی</h1>
-        <span class="badge">HIL SIMULINK CONNECTED</span>
-    </div>
-
-    <div class="grid-container">
-        <div class="card">
-            <div class="card-title">تله‌متری دینامیکی و وضعیت ناوبری زیرسطحی</div>
-            <div class="metrics-grid">
-                <div class="metric-box">
-                    <span>عمق غوطه‌وری (Depth):</span>
-                    <strong id="depth">۱۲۴٫۶ متر</strong>
-                </div>
-                <div class="metric-box">
-                    <span>سرعت پیشروی (Speed):</span>
-                    <strong>۱۸٫۴ گره دریایی</strong>
-                </div>
-                <div class="metric-box">
-                    <span>فشار هیدرواستاتیک:</span>
-                    <strong>۱۲٫۸ بار</strong>
-                </div>
-                <div class="metric-box">
-                    <span>ناوبری تلفیقی (INS/Acoustic):</span>
-                    <strong style="color: var(--accent-green);">پایدار و قفل‌شده</strong>
-                </div>
+    <div class="container">
+        <header>
+            <h1><i class="fa-solid fa-jet-fighter"></i> پنل فرماندهی عملیات زپهپاد (Swarm Drones)</h1>
+            <a href="https://hlth3al.github.io/Hossein-Laaliyan-AI/" class="back-btn"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
+        </header>
+        <div class="grid">
+            <div class="card">
+                <h3><i class="fa-solid fa-network-wired"></i> مدیریت دسته‌ای ریزپرنده‌ها</h3>
+                <p>هماهنگی شبکه توزیع‌شده بین ۱۲۸ ریزپرنده فعال بدون نیاز به کنترل مستمر انسانی.</p>
             </div>
-            <div style="background: #041224; border: 1px solid var(--border-ui); padding: 10px; border-radius: 6px; margin-top: 10px;">
-                <span style="font-size: 11px; color: var(--text-dim);">پایداری ماتریس هدایت غیرخطی ANFIS:</span>
-                <div style="font-size: 15px; font-weight: bold; color: var(--accent-cyan); margin-top: 4px;">۹۸٫۴٪ (خطای زاویه‌ای < ۰٫۰۲ رادیان)</div>
+            <div class="card">
+                <h3><i class="fa-solid fa-brain"></i> یادگیری تقویتی گروهی</h3>
+                <p>تصمیم‌گیری آنی دسته ریزپرنده‌ها بر اساس شرایط تاکتیکی میدان نبرد و موانع پیش‌رو.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fa-solid fa-shield-cat"></i> تقسیم وظایف تاکتیکی</h3>
+                <p>توزیع خودکار نقش‌های شناسایی، جنگ الکترونیک و انهدام هدف بین ریزپرنده‌ها.</p>
             </div>
         </div>
-
-        <div class="card">
-            <div class="card-title">فرمان‌های تاکتیکی و مانور کنترل HIL</div>
-            <button class="btn" onclick="triggerAction('DIVING')">🔻 مانور شیرجه سریع و تثبیت شناوری (Rapid Diving Maneuver)</button>
-            <button class="btn" onclick="triggerAction('OBSTACLE')">🛡️ فعال‌سازی مانور خودکار فرار از موانع بستر دریا (Obstacle Avoidance)</button>
-            <button class="btn btn-danger" onclick="triggerAction('EMERGENCY')">🚨 پروتکل اضطراری تخلیه بالاست و صعود ضربتی</button>
-            <div class="console" id="logBox" style="margin-top: 10px;">
-                <div>[سیستم] اتصال بی‌درنگ به بلوک هیدرودینامیک ۶ درجه آزادی (6-DOF) برقرار است.</div>
-            </div>
-        </div>
+        <footer>طراحی و توسعه مهندسی: <strong>حسین لعلیان</strong> (رتبه ۳۲ کنکور دکتری) | شرکت صنایع پردرآمد تهرانیها</footer>
     </div>
-
-    <!-- کادر اخطار رسمی ممانعت از کپی‌برداری -->
-    <div class="legal-box">
-        <h3>اخطار رسمی ممانعت از کپی‌برداری و پیاده‌سازی عملیاتی:</h3>
-        <p>هر زمان پل واقعی Simulink/HIL،سنسورهای لبه هوش مصنوعی فدرال متصل شود، سیستم آماده دریافت تله‌متری زنده خواهد بود.</p>
-        <p>به جهت ممانعت از کپی‌برداری غیرمجاز و حفظ الگوریتم‌های راهبردی، این داشبورد صرفاً به عنوان یک دموی عمومی با امکانات محدودشده (Protected Demo) بارگذاری شده است.</p>
-        <p>در صورت سفارش، این سامانه به شکلی اختصاصی بازطراحی و تحویل خواهد شد که با اتصال بی‌واسطه به لبه‌های واقعی سخت‌افزاری (Hardware-in-the-Loop - HIL)، سنسورهای آکوستیک، میکروکنترلرهای ناوبری، پایگاه استنتاج فازی ANFIS و بلوک‌های مدل‌سازی‌شده در Simulink، بهینه‌ترین و پایدارترین پاسخ دینامیکی و هدایتی را در شرایط عملیاتی زیرسطحی فراهم آورد.</p>
-    </div>
-
-    <div class="footer-card">
-        <p>طراحی و توسعه مهندسی: <strong>حسین لعلیان؛ رتبه ۳۲ کنکور دکتری</strong></p>
-        <p>رایانامه رسمی ارتباطات صنعتی: <code>ai.algorithms.ballistics@gmail.com</code></p>
-    </div>
-
-    <script>
-        function triggerAction(type) {
-            const log = document.getElementById('logBox');
-            const time = new Date().toLocaleTimeString('fa-IR');
-            let text = "";
-            if(type === 'DIVING') text = `[${time}] زاویه سکان‌های افقی تنظیم شد. اعمال نرخ فرود ۱٫۵ متر بر ثانیه بر اساس مدل فازی.`;
-            else if(type === 'OBSTACLE') text = `[${time}] هدف بستر آکوستیک در برد ۳۰۰ متری سنس شد. انحراف مسیر با زاویه ۱۵ درجه به چپ اعمال گردید.`;
-            else if(type === 'EMERGENCY') text = `[${time}] هشدار فشار بیش‌ازحد! شیرهای بالاست سریع باز شدند. مانور صعود با حداکثر زاویه حمله فعال شد.`;
-            const item = document.createElement('div');
-            item.innerText = text;
-            log.appendChild(item);
-            log.scrollTop = log.scrollHeight;
-        }
-    </script>
 </body>
 </html>
