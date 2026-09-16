@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UUAV-AI | سامانه پایش و فرماندهی زپهپاد تاکتیکی</title>
+    <title>UUAV-AI | پنل فرماندهی عملیات پهپاد زیردریایی (زپهپاد)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -291,8 +291,8 @@
             <span class="status-tag"><i class="fa-solid fa-signal"></i> HIL LINK ACTIVE</span>
             <span>مدل ناوبری: ANFIS-Adaptive</span>
         </div>
-        <h1>سامانه پایش و فرماندهی پهپاد زیردریایی (زپهپاد تاکتیکی)</h1>
-        <p class="author-text">مهندس حسین لعلیان | رتبه ۳۲ کنکور دکتری</p>
+        <h1>پنل فرماندهی عملیات پهپاد زیردریایی (زپهپاد)</h1>
+        <p class="author-text">حسین لعلیان | رتبه ۳۲ کنکور دکتری</p>
     </header>
 
     <div class="hud-grid">
@@ -392,6 +392,15 @@
         </p>
     </div>
 
+    p><strong><i class="fa-solid fa-shield-halved"></i> اخطار رسمی ممانعت از کپی‌برداری و پیاده‌سازی عملیاتی:</strong></p>
+        <p>
+            به جهت <strong>ممانعت از کپی‌برداری غیرمجاز</strong> و حفظ الگوریتم‌های راهبردی، این داشبورد صرفاً به عنوان یک <strong>دموی عمومی با امکانات محدودشده (Protected Demo)</strong> بارگذاری شده است.
+        </p>
+        <p>
+            در صورت سفارش، این سامانه به شکلی اختصاصی بازطراحی و تحویل خواهد شد که با <strong>اتصال بی‌واسطه به لبه‌های واقعی سخت‌افزاری (Hardware-in-the-Loop - HIL)</strong>، سنسورهای آکوستیک، میکروکنترلرهای ناوبری، پایگاه استنتاج فازی <strong>ANFIS</strong> و بلوک‌های مدل‌سازی‌شده در <strong>Simulink</strong>، بهینه‌ترین و پایدارترین پاسخ دینامیکی و هدایتی را در شرایط عملیاتی زیرسطحی فراهم آورد.
+        </p>
+    </div>
+
     <!-- فوتر و مشخصات ارتباطی -->
     <footer>
         <p>توسعه سامانه هوشمند ناوبری پهپاد زیرسطحی (UUAV-AI / زپهپاد)</p>
@@ -412,36 +421,7 @@
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
         }
         if (audioContext.state === 'suspended') {
-            audioContext.resume();
-        }
-    }
-
-    function soundBeep(frequency, duration, type = 'sine') {
-        try {
-            initAudio();
-            const osc = audioContext.createOscillator();
-            const gain = audioContext.createGain();
-
-            osc.type = type;
-            osc.frequency.setValueAtTime(frequency, audioContext.currentTime);
-
-            gain.gain.setValueAtTime(0.25, audioContext.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
-
-            osc.connect(gain);
-            gain.connect(audioContext.destination);
-
-            osc.start();
-            osc.stop(audioContext.currentTime + duration);
-        } catch (e) {
-            console.log("Audio waiting for user gesture.");
-        }
-    }
-
-    // پالس سونار (پینگ اقیانوسی)
-    function playSonarPing() {
-        soundBeep(960, 0.4, 'sine');
-        pushLog("SONAR_TRANSMIT: 360-deg acoustic pulse emitted. Echo analysis underway.");
+            audioContextIT: 360-deg acoustic pulse emitted. Echo analysis underway.");
     }
 
     // بوق هشدار هدف مشکوک
