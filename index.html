@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-base: #030712;
-            --bg-card: #0b1528;
-            --bg-card-inner: #0f1f3d;
+            --bg-base: #020712;
+            --bg-card: #081326;
+            --bg-card-inner: #0d1e3d;
             --border-tactical: #1e3a8a;
             --border-glow: #38bdf8;
-            --sonar-color: #00ff66;
+            --sonar-green: #00ff66;
             --cyan-glow: #00f0ff;
             --alert-danger: #ef4444;
             --warning-amber: #f59e0b;
-            --text-title: #f0f9ff;
+            --text-title: #f8fafc;
             --text-dim: #94a3b8;
         }
 
@@ -25,71 +25,85 @@
         body {
             background-color: var(--bg-base);
             color: var(--text-title);
-            padding: 10px;
+            padding: 12px;
             direction: rtl;
             overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 0%, #0c2340 0%, #020712 70%);
         }
 
         .wrapper {
-            max-width: 1150px;
+            max-width: 1180px;
             margin: 0 auto;
         }
 
-        /* Tactical HUD Header */
+        /* Tactical Header */
         header {
-            background: linear-gradient(180deg, #0d1b38 0%, #060d1f 100%);
+            background: linear-gradient(180deg, #0f244a 0%, #071329 100%);
             border: 1px solid var(--border-tactical);
             border-top: 3px solid var(--cyan-glow);
-            border-radius: 10px;
-            padding: 16px;
-            text-align: center;
+            border-radius: 12px;
+            padding: 16px 20px;
             margin-bottom: 14px;
-            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.12);
-            position: relative;
+            box-shadow: 0 4px 25px rgba(0, 240, 255, 0.12);
         }
 
         .status-strip {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             color: var(--text-dim);
             border-bottom: 1px solid rgba(30, 58, 138, 0.6);
-            padding-bottom: 8px;
-            margin-bottom: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
         .status-tag {
             background: rgba(0, 255, 102, 0.15);
-            color: var(--sonar-color);
-            border: 1px solid var(--sonar-color);
-            padding: 2px 8px;
+            color: var(--sonar-green);
+            border: 1px solid var(--sonar-green);
+            padding: 3px 10px;
             border-radius: 4px;
             font-weight: bold;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         h1 {
-            font-size: 1.4rem;
+            font-size: 1.45rem;
             color: var(--cyan-glow);
             letter-spacing: 0.5px;
-            text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
-            margin-bottom: 4px;
+            text-shadow: 0 0 14px rgba(0, 240, 255, 0.4);
         }
 
-        .author-text {
-            color: #93c5fd;
-            font-size: 0.95rem;
-            font-weight: 600;
+        .author-badge {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid #0284c7;
+            padding: 6px 14px;
+            border-radius: 8px;
+            color: #bae6fd;
+            font-size: 0.9rem;
+            font-weight: bold;
         }
 
         /* Layout Grid */
         .hud-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
+            gap: 14px;
         }
 
-        @media (min-width: 900px) {
+        @media (min-width: 960px) {
             .hud-grid {
                 grid-template-columns: 1.15fr 0.85fr;
             }
@@ -98,157 +112,228 @@
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-tactical);
-            border-radius: 8px;
-            padding: 14px;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #172554;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+            font-size: 0.95rem;
             font-weight: bold;
             color: var(--cyan-glow);
         }
 
-        /* Sonar Radar Container */
-        .radar-box {
-            background: #020617;
+        /* Radar & Graphics Area */
+        .radar-panel {
+            background: radial-gradient(circle, #031524 0%, #010611 90%);
             border: 1px solid #1e293b;
-            border-radius: 8px;
-            padding: 12px;
+            border-radius: 10px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
         }
 
         canvas#sonarCanvas {
-            background: radial-gradient(circle, #032014 0%, #020617 75%);
+            background: radial-gradient(circle, #021a13 0%, #01080e 80%);
             border-radius: 50%;
-            border: 2px solid var(--sonar-color);
-            box-shadow: 0 0 25px rgba(0, 255, 102, 0.25);
+            border: 2px solid #059669;
+            box-shadow: 0 0 30px rgba(0, 255, 102, 0.25);
             max-width: 100%;
+            display: block;
         }
 
+        .radar-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 0.78rem;
+            color: #7dd3fc;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid #1e293b;
+        }
+
+        /* Interactive Tactical Buttons */
         .control-actions {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 10px;
             width: 100%;
-            margin-top: 12px;
+            margin-top: 14px;
         }
 
         .btn-tac {
-            background: #0b223d;
-            color: #38bdf8;
-            border: 1px solid #0284c7;
-            padding: 10px;
-            border-radius: 6px;
+            background: linear-gradient(180deg, #0c4a6e 0%, #072e4a 100%);
+            color: #e0f2fe;
+            border: 1px solid var(--border-glow);
+            padding: 12px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
             transition: all 0.2s;
+            box-shadow: 0 2px 10px rgba(2, 132, 199, 0.3);
         }
 
         .btn-tac:hover {
             background: #0284c7;
-            color: white;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+        }
+
+        .btn-tac:active {
+            transform: translateY(1px);
         }
 
         .btn-danger {
-            background: rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
+            background: linear-gradient(180deg, #7f1d1d 0%, #450a0a 100%);
+            color: #fee2e2;
             border: 1px solid var(--alert-danger);
+            box-shadow: 0 2px 10px rgba(239, 68, 68, 0.3);
         }
 
         .btn-danger:hover {
             background: var(--alert-danger);
-            color: white;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
         }
 
-        /* Metrics Display */
+        /* Telemetry & Digital Gauges */
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 14px;
         }
 
         .metric-cell {
             background: var(--bg-card-inner);
             border: 1px solid #1e3a8a;
-            border-radius: 6px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 12px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .metric-cell .label { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 3px; }
-        .metric-cell .number { font-size: 1.2rem; font-weight: bold; color: var(--sonar-color); font-family: 'Courier New', monospace; }
-        .metric-cell .unit { font-size: 0.7rem; color: #94a3b8; }
+        .metric-cell::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--cyan-glow);
+        }
+
+        .metric-cell .label { font-size: 0.78rem; color: var(--text-dim); margin-bottom: 4px; }
+        .metric-cell .number { font-size: 1.35rem; font-weight: bold; color: var(--sonar-green); font-family: 'Courier New', monospace; }
+        .metric-cell .unit { font-size: 0.72rem; color: #94a3b8; }
+
+        /* Power & Hydrodynamic Bar Displays */
+        .bar-container {
+            background: #061122;
+            border: 1px solid #172554;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+            color: #94a3b8;
+        }
+
+        .progress-slot {
+            width: 100%;
+            height: 10px;
+            background: #0f172a;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #1e293b;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0284c7, #00ff66);
+            width: 82%;
+            transition: width 0.5s;
+        }
 
         /* Modules Status List */
         .module-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
+            margin-top: 10px;
         }
 
         .mod-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #071226;
+            background: #07142b;
             border: 1px solid #172554;
-            padding: 8px 12px;
+            padding: 9px 12px;
             border-radius: 6px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
         }
 
         .tag-ok {
-            background: rgba(34, 197, 94, 0.2);
+            background: rgba(34, 197, 94, 0.15);
             color: #4ade80;
             border: 1px solid #22c55e;
-            padding: 2px 7px;
+            padding: 2px 8px;
             border-radius: 4px;
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             font-weight: bold;
         }
 
-        /* Console Output */
+        /* Terminal Console */
         .term-console {
-            background: #020617;
+            background: #010814;
             border: 1px solid #1e293b;
-            border-radius: 6px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 12px;
             font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
-            color: #a7f3d0;
-            height: 110px;
+            font-size: 0.76rem;
+            color: #6ee7b7;
+            height: 125px;
             overflow-y: auto;
             direction: ltr;
             text-align: left;
-            margin-top: 10px;
+            margin-top: 12px;
+            line-height: 1.5;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
         }
 
-        /* Notice & Disclaimer Box */
+        /* Protected Demo Notice */
         .disclaimer-card {
-            background: linear-gradient(180deg, #131b2e 0%, #090e1c 100%);
+            background: linear-gradient(180deg, #101c36 0%, #080f21 100%);
             border: 1px dashed #38bdf8;
-            border-radius: 8px;
-            padding: 14px;
-            margin-top: 12px;
-            font-size: 0.85rem;
-            line-height: 1.8;
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 14px;
+            font-size: 0.88rem;
+            line-height: 1.9;
             color: #cbd5e1;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .disclaimer-card strong { color: var(--warning-amber); }
@@ -256,80 +341,91 @@
         /* Footer */
         footer {
             text-align: center;
-            margin-top: 20px;
-            padding: 14px;
+            margin-top: 24px;
+            padding: 16px;
             border-top: 1px solid var(--border-tactical);
             color: var(--text-dim);
-            font-size: 0.85rem;
+            font-size: 0.88rem;
         }
 
         .email-link {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: #0284c7;
+            background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
             color: #fff;
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.85rem;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.88rem;
             font-weight: bold;
-            margin-top: 8px;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
             transition: 0.2s;
         }
-        .email-link:hover { background: #0369a1; }
+        .email-link:hover { background: #0284c7; transform: translateY(-1px); }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
     
-    <!-- سربرگ فرماندهی زپهپاد -->
+    <!-- سربرگ تاکتیکی زپهپاد -->
     <header>
         <div class="status-strip">
-            <span><i class="fa-solid fa-drone"></i> پلتفرم خودران بدون‌سرنشین UUAV-AI</span>
-            <span class="status-tag"><i class="fa-solid fa-signal"></i> HIL LINK ACTIVE</span>
-            <span>مدل ناوبری: ANFIS-Adaptive</span>
+            <span><i class="fa-solid fa-water"></i> سامانه هدایت هوشمند بدون‌سرنشین زیرسطحی (UUAV-AI)</span>
+            <span class="status-tag"><i class="fa-solid fa-satellite-dish"></i> HIL TELEMETRY ACTIVE</span>
+            <span>مدل کنترل عمق: ANFIS-Adaptive V3.2</span>
         </div>
-        <h1>پنل فرماندهی عملیات پهپاد زیردریایی (زپهپاد)</h1>
-        <p class="author-text">حسین لعلیان | رتبه ۳۲ کنکور دکتری</p>
+        <div class="header-content">
+            <h1>پنل فرماندهی عملیات پهپاد زیردریایی (زپهپاد)</h1>
+            <div class="author-badge">
+                <i class="fa-solid fa-user-shield"></i> حسین لعلیان | رتبه ۳۲ کنکور دکتری
+            </div>
+        </div>
     </header>
 
     <div class="hud-grid">
         
-        <!-- ستون ۱: سونار آکوستیک و پالس صوتی -->
+        <!-- ستون ۱: رادار سونار ۳۶۰ و فرمان صوتی -->
         <div class="card">
             <div class="card-header">
-                <span><i class="fa-solid fa-radar"></i> سونار روبش قطبی ۳۶۰ درجه (Acoustic Sweep)</span>
-                <span id="targetStatusText" style="color: var(--sonar-color);">وضعیت: گشت‌زنی خودکار</span>
+                <span><i class="fa-solid fa-circle-notch fa-spin" style="--fa-animation-duration: 4s;"></i> سونار روبش قطبی ۳۶۰ درجه (Acoustic Sweep)</span>
+                <span id="targetStatusBadge" style="color: var(--sonar-green); font-size: 0.82rem;">وضعیت: گشت‌زنی ایمن</span>
             </div>
 
-            <div class="radar-box">
-                <canvas id="sonarCanvas" width="300" height="300"></canvas>
+            <div class="radar-panel">
+                <canvas id="sonarCanvas" width="320" height="320"></canvas>
+                <div class="radar-stats">
+                    <span>محدوده پوشش: ۴ کیلومتر</span>
+                    <span>زاویه فرستنده: ۳۶۰°</span>
+                    <span>تعداد تماس‌ها: ۳ هدف</span>
+                </div>
             </div>
 
+            <!-- دکمه‌های کاملاً فعال و هماهنگ -->
             <div class="control-actions">
-                <button class="btn-tac" onclick="playSonarPing()">
+                <button class="btn-tac" id="btnPing" onclick="triggerSonarPing()">
                     <i class="fa-solid fa-volume-high"></i> پالس سونار (بوق صوتی)
                 </button>
-                <button class="btn-tac btn-danger" onclick="triggerAlertTone()">
+                <button class="btn-tac btn-danger" id="btnAlert" onclick="triggerAlertSequence()">
                     <i class="fa-solid fa-triangle-exclamation"></i> آژیر هدف مشکوک
                 </button>
             </div>
 
             <div class="term-console" id="logBox">
-                [SYS_INIT] UUAV Autonomous Submarine Drone Core Booted.<br>
-                [ANFIS_CORE] Hydrodynamic drag coefficients tuned via ANFIS.<br>
-                [HIL_SIM] Hardware-in-the-Loop node linked with MATLAB/Simulink.<br>
-                [METAHEURISTIC] Energy minimization route optimized (Swarm Path: OK).
+                [SYS_BOOT] UUAV Autonomous Submarine Drone System Online.<br>
+                [ANFIS_GNC] Non-linear hydrodynamic damping models linked.<br>
+                [HIL_SIM] MATLAB / Simulink bridge initialized via UDP telemetry.<br>
+                [PASSIVE_SONAR] Acoustic signature matching algorithm active.
             </div>
         </div>
 
-        <!-- ستون ۲: تله‌متری و ماژول‌های مهندسی -->
+        <!-- ستون ۲: گیج‌های تله‌متری و ماژول‌ها -->
         <div class="card">
             <div class="card-header">
                 <span><i class="fa-solid fa-gauge-high"></i> تله‌متری بلادرنگ پیشرانش و دینامیک زپهپاد</span>
-                <span style="color: var(--cyan-glow);">UUAV-DYNAMICS</span>
+                <span style="color: #38bdf8;">NODE #01</span>
             </div>
 
             <div class="metrics-grid">
@@ -346,7 +442,7 @@
                 <div class="metric-cell">
                     <div class="label">تراست موتور براشلس</div>
                     <div class="number" id="thrustPct">78.2</div>
-                    <div class="unit">درصد توان پیشرانش (%)</div>
+                    <div class="unit">درصد توان خروجی (%)</div>
                 </div>
                 <div class="metric-cell">
                     <div class="label">فشار هیدرواستاتیک</div>
@@ -355,14 +451,25 @@
                 </div>
             </div>
 
-            <div class="card-header" style="margin-top: 10px;">
+            <!-- وضعیت باتری و توان هیدرودینامیک -->
+            <div class="bar-container">
+                <div class="bar-label">
+                    <span>ذخیره انرژی باتری لیتیم-پلیمر (Endurance)</span>
+                    <span id="batPct">84%</span>
+                </div>
+                <div class="progress-slot">
+                    <div class="progress-fill" id="batFill" style="width: 84%;"></div>
+                </div>
+            </div>
+
+            <div class="card-header" style="margin-top: 12px;">
                 <span><i class="fa-solid fa-microchip"></i> هسته‌های کنترلی و الگوریتم‌های پیشرفته</span>
             </div>
 
             <div class="module-group">
                 <div class="mod-item">
-                    <span><i class="fa-solid fa-brain" style="color: #a78bfa;"></i> مدل غیرخطی استنتاج عصبی-فازی (ANFIS)</span>
-                    <span class="tag-ok">Active Controller</span>
+                    <span><i class="fa-solid fa-brain" style="color: #c084fc;"></i> مدل غیرخطی استنتاج عصبی-فازی (ANFIS)</span>
+                    <span class="tag-ok">Controller Active</span>
                 </div>
                 <div class="mod-item">
                     <span><i class="fa-solid fa-dna" style="color: #38bdf8;"></i> الگوریتم‌های فراابتکاری (Metaheuristics)</span>
@@ -370,29 +477,20 @@
                 </div>
                 <div class="mod-item">
                     <span><i class="fa-solid fa-network-wired" style="color: #facc15;"></i> شبیه‌ساز سخت‌افزار در حلقه (HIL Simulation)</span>
-                    <span class="tag-ok">Target Synced</span>
+                    <span class="tag-ok">Sync: 1000 Hz</span>
                 </div>
                 <div class="mod-item">
                     <span><i class="fa-solid fa-diagram-project" style="color: #34d399;"></i> بستر تبادل هم‌زمان با MATLAB / Simulink</span>
-                    <span class="tag-ok">Full Co-Sim</span>
+                    <span class="tag-ok">Co-Simulation OK</span>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- بخش ممانعت از کپی‌برداری و سفارش صنعتی -->
+    <!-- بخش ممانعت از کپی‌برداری (یکتا و بدون تکرار) -->
     <div class="disclaimer-card">
         <p><strong><i class="fa-solid fa-shield-halved"></i> اخطار رسمی ممانعت از کپی‌برداری و پیاده‌سازی عملیاتی:</strong></p>
-        <p>
-            به جهت <strong>ممانعت از کپی‌برداری غیرمجاز</strong> و حفظ الگوریتم‌های راهبردی، این داشبورد صرفاً به عنوان یک <strong>دموی عمومی با امکانات محدودشده (Protected Demo)</strong> بارگذاری شده است.
-        </p>
-        <p>
-            در صورت سفارش، این سامانه به شکلی اختصاصی بازطراحی و تحویل خواهد شد که با <strong>اتصال بی‌واسطه به لبه‌های واقعی سخت‌افزاری (Hardware-in-the-Loop - HIL)</strong>، سنسورهای آکوستیک، میکروکنترلرهای ناوبری، پایگاه استنتاج فازی <strong>ANFIS</strong> و بلوک‌های مدل‌سازی‌شده در <strong>Simulink</strong>، بهینه‌ترین و پایدارترین پاسخ دینامیکی و هدایتی را در شرایط عملیاتی زیرسطحی فراهم آورد.
-        </p>
-    </div>
-
-    p><strong><i class="fa-solid fa-shield-halved"></i> اخطار رسمی ممانعت از کپی‌برداری و پیاده‌سازی عملیاتی:</strong></p>
         <p>
             به جهت <strong>ممانعت از کپی‌برداری غیرمجاز</strong> و حفظ الگوریتم‌های راهبردی، این داشبورد صرفاً به عنوان یک <strong>دموی عمومی با امکانات محدودشده (Protected Demo)</strong> بارگذاری شده است.
         </p>
@@ -413,116 +511,198 @@
 </div>
 
 <script>
-    // سنتز اختصاصی صدا با AudioContext (بدون فایل صوتی خارجی و بدون فیلتر)
-    let audioContext = null;
+    // ==========================================
+    // ۱. سیستم تولید صدای بلادرنگ (بدون نیاز به فایل صوتی)
+    // ==========================================
+    let audioCtx = null;
 
-    function initAudio() {
-        if (!audioContext) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    function getAudioContext() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
-        if (audioContext.state === 'suspended') {
-            audioContextIT: 360-deg acoustic pulse emitted. Echo analysis underway.");
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+        return audioCtx;
     }
 
-    // بوق هشدار هدف مشکوک
-    function triggerAlertTone() {
-        soundBeep(1300, 0.15, 'triangle');
-        setTimeout(() => soundBeep(1300, 0.15, 'triangle'), 180);
-        setTimeout(() => soundBeep(1750, 0.35, 'sawtooth'), 400);
+    function playTone(freq, type, duration, startVol = 0.3) {
+        try {
+            const ctx = getAudioContext();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
 
-        document.getElementById('targetStatusText').innerHTML = "<span style='color: var(--alert-danger);'>⚠️ تماس ناشناس / مشکوک!</span>";
-        pushLog("ALERT_DETECT: Suspicious underwater contact verified at Bearing 068° Range 1.8km.");
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+            gain.gain.setValueAtTime(startVol, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.start();
+            osc.stop(ctx.currentTime + duration);
+        } catch (e) {
+            console.warn("Audio Context init pending user action.", e);
+        }
     }
 
-    // ارسال پیام به ترمینال لاگ
+    // پالس صوتی سونار (Ping)
+    function triggerSonarPing() {
+        playTone(950, 'sine', 0.8, 0.4);
+        setTimeout(() => playTone(945, 'sine', 0.5, 0.15), 350); // پژواک انعکاسی
+
+        pulseWaveRadius = 5; // شروع موج انفجاری رادار
+        pushLog("ACOUSTIC_PULSE: Active 360° sonar ping transmitted (Echo received: 1.4s).");
+    }
+
+    // آژیر هشدار هدف ناشناس
+    function triggerAlertSequence() {
+        playTone(850, 'sawtooth', 0.2, 0.3);
+        setTimeout(() => playTone(1200, 'triangle', 0.25, 0.4), 160);
+        setTimeout(() => playTone(1600, 'sawtooth', 0.35, 0.4), 360);
+
+        const badge = document.getElementById('targetStatusBadge');
+        badge.innerHTML = "<span style='color: #ef4444;'>⚠️ تماس ناشناس در برد ۱.۸ کیلومتری!</span>";
+        
+        targetAlertMode = true;
+        setTimeout(() => { targetAlertMode = false; }, 6000);
+
+        pushLog("ALERT_TRIGGER: Suspicious underwater contact detected at Bearing 072° Range 1840m!");
+    }
+
+    // درج گزارش در کنسول
     function pushLog(text) {
         const consoleEl = document.getElementById('logBox');
-        const timeNow = new Date().toTimeString().split(' ')[0];
-        consoleEl.innerHTML += `<br>[${timeNow}] ${text}`;
+        const d = new Date();
+        const timeStr = d.toTimeString().split(' ')[0];
+        consoleEl.innerHTML += `<br>[${timeStr}] ${text}`;
         consoleEl.scrollTop = consoleEl.scrollHeight;
     }
 
-    // انیمیشن و رندرینگ رادار سونار
+    // ==========================================
+    // ۲. رادار سونار گرافیکی پیشرفته با HTML5 Canvas
+    // ==========================================
     const canvas = document.getElementById('sonarCanvas');
     const ctx = canvas.getContext('2d');
     const center = canvas.width / 2;
-    const maxRadius = center - 8;
-    let sweepAngle = 0;
+    const maxRadius = center - 10;
 
+    let sweepAngle = 0;
+    let pulseWaveRadius = 0;
+    let targetAlertMode = false;
+
+    // اهداف شبیه‌سازی‌شده زیرسطحی
     const contacts = [
-        { angle: 1.1, distance: 70, id: 'T-1' },
-        { angle: 3.4, distance: 105, id: 'T-2' },
-        { angle: 5.2, distance: 45, id: 'T-3' }
+        { angle: 1.25, distance: 75, id: 'C-1', threat: false },
+        { angle: 3.65, distance: 115, id: 'C-2', threat: false },
+        { angle: 5.40, distance: 55, id: 'C-3', threat: true }
     ];
 
-    function renderRadar() {
-        ctx.fillStyle = 'rgba(2, 6, 23, 0.08)';
+    function drawRadar() {
+        // پس‌زمینه با ماندگاری کم جهت ایجاد اثر دنباله رادار (Phosphor Trail)
+        ctx.fillStyle = 'rgba(2, 8, 20, 0.12)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // حلقه‌های رادار
-        ctx.strokeStyle = '#064e3b';
+        // ۱. رسم دوایر متحدالمرکز برد
         ctx.lineWidth = 1;
-        for (let r = 25; r <= maxRadius; r += 25) {
+        for (let r = 30; r <= maxRadius; r += 30) {
             ctx.beginPath();
+            ctx.strokeStyle = (r === 90 || r === maxRadius) ? '#059669' : '#034131';
             ctx.arc(center, center, r, 0, Math.PI * 2);
             ctx.stroke();
         }
 
-        // تقاطع خطوط راهنما
+        // ۲. خطوط محور تاکتیکی
+        ctx.strokeStyle = '#064e3b';
         ctx.beginPath();
-        ctx.moveTo(center - maxRadius, center);
-        ctx.lineTo(center + maxRadius, center);
-        ctx.moveTo(center, center - maxRadius);
-        ctx.lineTo(center, center + maxRadius);
+        ctx.moveTo(center - maxRadius, center); ctx.lineTo(center + maxRadius, center);
+        ctx.moveTo(center, center - maxRadius); ctx.lineTo(center, center + maxRadius);
         ctx.stroke();
 
-        // خط چرخان رادار (Sweep)
-        const lineX = center + maxRadius * Math.cos(sweepAngle);
-        const lineY = center + maxRadius * Math.sin(sweepAngle);
+        // ۳. موج منتشر شونده هنگام فشردن دکمه پالس (Ping)
+        if (pulseWaveRadius > 0) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(0, 255, 102, ${1 - (pulseWaveRadius / maxRadius)})`;
+            ctx.lineWidth = 3;
+            ctx.arc(center, center, pulseWaveRadius, 0, Math.PI * 2);
+            ctx.stroke();
+            pulseWaveRadius += 4;
+            if (pulseWaveRadius > maxRadius) pulseWaveRadius = 0;
+        }
 
-        ctx.strokeStyle = '#00ff66';
-        ctx.lineWidth = 2;
+        // ۴. خط اسکن گردان (Sonar Sweep)
+        const sweepX = center + maxRadius * Math.cos(sweepAngle);
+        const sweepY = center + maxRadius * Math.sin(sweepAngle);
+
+        const sweepGrad = ctx.createLinearGradient(center, center, sweepX, sweepY);
+        sweepGrad.addColorStop(0, 'rgba(0, 255, 102, 0.9)');
+        sweepGrad.addColorStop(1, 'rgba(0, 255, 102, 0.2)');
+
+        ctx.strokeStyle = sweepGrad;
+        ctx.lineWidth = 2.5;
         ctx.beginPath();
         ctx.moveTo(center, center);
-        ctx.lineTo(lineX, lineY);
+        ctx.lineTo(sweepX, sweepY);
         ctx.stroke();
 
-        // رسم اهداف و پژواک‌ها
+        // مخروط کم‌نور پشت خط اسکن
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(0, 255, 102, 0.05)';
+        ctx.moveTo(center, center);
+        ctx.arc(center, center, maxRadius, sweepAngle - 0.25, sweepAngle);
+        ctx.fill();
+
+        // ۵. نمایش اهداف زیرسطحی
         contacts.forEach(c => {
             const cx = center + c.distance * Math.cos(c.angle);
             const cy = center + c.distance * Math.sin(c.angle);
 
-            ctx.fillStyle = '#ef4444';
+            const isAlert = targetAlertMode || c.threat;
+            const targetColor = isAlert ? '#ef4444' : '#00ff66';
+
+            // هسته هدف
+            ctx.fillStyle = targetColor;
             ctx.beginPath();
-            ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+            ctx.arc(cx, cy, isAlert ? 5 : 3.5, 0, Math.PI * 2);
             ctx.fill();
 
-            ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)';
+            // هاله چشمک‌زن هدف
+            ctx.strokeStyle = targetColor;
+            ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.arc(cx, cy, 9, 0, Math.PI * 2);
+            ctx.arc(cx, cy, 8 + Math.sin(Date.now() / 150) * 3, 0, Math.PI * 2);
             ctx.stroke();
+
+            // برچسب تماس
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '9px monospace';
+            ctx.fillText(c.id, cx + 8, cy - 4);
         });
 
-        sweepAngle += 0.038;
+        sweepAngle += 0.035;
         if (sweepAngle > Math.PI * 2) sweepAngle = 0;
 
-        requestAnimationFrame(renderRadar);
+        requestAnimationFrame(drawRadar);
     }
 
-    renderRadar();
+    drawRadar();
 
-    // به‌روزرسانی زنده مقادیر دینامیکی و تله‌متری
+    // ==========================================
+    // ۳. شبیه‌سازی بلادرنگ تله‌متری پیشرانش و دینامیک
+    // ==========================================
     setInterval(() => {
-        const d = (185 + (Math.random() * 1.4 - 0.7)).toFixed(1);
-        const sp = (22.8 + (Math.random() * 0.4 - 0.2)).toFixed(1);
-        const th = (78 + (Math.random() * 2 - 1)).toFixed(1);
-        const pr = (d / 10).toFixed(1);
+        const depth = (185.0 + (Math.random() * 1.6 - 0.8)).toFixed(1);
+        const speed = (22.8 + (Math.random() * 0.6 - 0.3)).toFixed(1);
+        const thrust = (78.0 + (Math.random() * 2.5 - 1.2)).toFixed(1);
+        const pressure = (depth / 10.02).toFixed(1);
 
-        document.getElementById('depthM').innerText = d;
-        document.getElementById('speedKn').innerText = sp;
-        document.getElementById('thrustPct').innerText = th;
-        document.getElementById('pressBar').innerText = pr;
-    }, 1700);
+        document.getElementById('depthM').innerText = depth;
+        document.getElementById('speedKn').innerText = speed;
+        document.getElementById('thrustPct').innerText = thrust;
+        document.getElementById('pressBar').innerText = pressure;
+    }, 1800);
 </script>
 
 </body>
