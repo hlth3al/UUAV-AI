@@ -1,136 +1,280 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UUAV-AI | پنل فرماندهی ناوبری و عملیات پهپاد زیرسطحی</title>
-    <style>
-        :root {
-            --bg-main: #020b14;
-            --panel-bg: rgba(10, 25, 47, 0.85);
-            --border-ui: #1b3a5b;
-            --accent-cyan: #00f2fe;
-            --accent-blue: #4facfe;
-            --accent-green: #00ff88;
-            --accent-red: #ff3366;
-            --text-light: #e6f1ff;
-            --text-dim: #8892b0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UUAV-AI | پنل فرماندهی ناوبری و عملیات پهپاد زیرسطحی</title>
+<style>
+:root {
+  --bg-main: #020b14;
+  --panel-bg: rgba(10, 25, 47, 0.85);
+  --border-ui: #1b3a5b;
+  --accent-cyan: #00f2fe;
+  --accent-blue: #4facfe;
+  --accent-green: #00ff88;
+  --accent-red: #ff3366;
+  --accent-gold: #f59e0b;
+  --text-light: #e6f1ff;
+  --text-dim: #8892b0;
+}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-light); font-size: 13px; padding: 15px; line-height: 1.6; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+body { background-color: var(--bg-main); color: var(--text-light); font-size: 13px; padding: 15px; line-height: 1.6; }
 
-        .header { background: #07192f; border: 1px solid var(--accent-cyan); border-radius: 8px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; box-shadow: 0 0 15px rgba(0, 242, 254, 0.15); }
-        .header h1 { font-size: 18px; color: var(--accent-cyan); letter-spacing: 0.5px; }
-        .badge { background: rgba(0, 255, 136, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+.header { background: #07192f; border: 1px solid var(--accent-cyan); border-radius: 8px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; box-shadow: 0 0 15px rgba(0, 242, 254, 0.15); flex-wrap: wrap; gap: 10px; }
+.header h1 { font-size: 18px; color: var(--accent-cyan); letter-spacing: 0.5px; }
+.badge { background: rgba(0, 255, 136, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; }
 
-        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; } }
+.grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+@media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; } }
 
-        .card { background: var(--panel-bg); border: 1px solid var(--border-ui); border-radius: 8px; padding: 15px; backdrop-filter: blur(5px); }
-        .card-title { font-size: 14px; font-weight: bold; color: var(--accent-blue); margin-bottom: 12px; border-bottom: 1px solid var(--border-ui); padding-bottom: 6px; }
+.card { background: var(--panel-bg); border: 1px solid var(--border-ui); border-radius: 8px; padding: 15px; backdrop-filter: blur(5px); }
+.card-title { font-size: 14px; font-weight: bold; color: var(--accent-blue); margin-bottom: 12px; border-bottom: 1px solid var(--border-ui); padding-bottom: 6px; }
 
-        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .metric-box { background: #041224; border: 1px solid var(--border-ui); padding: 10px; border-radius: 6px; }
-        .metric-box span { font-size: 11px; color: var(--text-dim); display: block; }
-        .metric-box strong { font-size: 16px; color: #fff; display: block; margin-top: 4px; }
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.metric-box { background: #041224; border: 1px solid var(--border-ui); padding: 10px; border-radius: 6px; }
+.metric-box span { font-size: 11px; color: var(--text-dim); display: block; }
+.metric-box strong { font-size: 16px; color: #fff; display: block; margin-top: 4px; }
 
-        .btn { background: #0f2d4e; color: #fff; border: 1px solid #1e4a7a; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 8px; text-align: right; font-size: 12px; transition: 0.2s; }
-        .btn:hover { border-color: var(--accent-cyan); background: #163f6d; }
-        .btn-danger { border-color: var(--accent-red); color: #ff99aa; }
+.btn { background: #0f2d4e; color: #fff; border: 1px solid #1e4a7a; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 8px; text-align: right; font-size: 12px; transition: 0.2s; }
+.btn:hover { border-color: var(--accent-cyan); background: #163f6d; }
+.btn-danger { border-color: var(--accent-red); color: #ff99aa; }
 
-        .console { background: #030d1a; border: 1px solid var(--border-ui); border-radius: 6px; padding: 10px; height: 140px; overflow-y: auto; font-family: monospace; font-size: 11px; color: #00f2fe; }
+.console { background: #030d1a; border: 1px solid var(--border-ui); border-radius: 6px; padding: 10px; height: 140px; overflow-y: auto; font-family: monospace; font-size: 11px; color: #00f2fe; line-height: 1.8; }
 
-        /* Legal Box Style */
-        .legal-box {
-            background: rgba(7, 25, 47, 0.95);
-            border: 1px solid var(--accent-cyan);
-            border-right: 4px solid var(--accent-cyan);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            color: #ccd6f6;
-            line-height: 1.8;
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.1);
-        }
-        .legal-box h3 { color: var(--accent-cyan); margin-bottom: 10px; font-size: 14px; }
-        .legal-box p { margin-bottom: 10px; }
+/* Legal Box Style */
+.legal-box {
+  background: rgba(7, 25, 47, 0.95);
+  border: 1px solid var(--accent-cyan);
+  border-right: 4px solid var(--accent-cyan);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  color: #ccd6f6;
+  line-height: 1.8;
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.1);
+}
+.legal-box h3 { color: var(--accent-cyan); margin-bottom: 10px; font-size: 14px; }
+.legal-box p { margin-bottom: 10px; }
 
-        .footer-card { background: #040e1c; border: 1px solid var(--border-ui); padding: 15px 20px; border-radius: 6px; }
-        .footer-card code { color: var(--accent-cyan); font-size: 14px; font-weight: bold; }
-    </style>
+.footer-card { background: #040e1c; border: 1px solid var(--border-ui); padding: 15px 20px; border-radius: 6px; text-align: center; margin-bottom: 15px; }
+.footer-card code { color: var(--accent-cyan); font-size: 13px; font-weight: bold; font-family: monospace; }
+
+/* Accordion Section */
+.interactive-section { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+.accordion-btn {
+  background: linear-gradient(90deg, #071e3d, #041226);
+  border: 1px solid #1b3a5b;
+  border-right: 4px solid var(--accent-cyan);
+  color: #f1f5f9;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.25s ease;
+  width: 100%;
+}
+.accordion-btn:hover {
+  background: linear-gradient(90deg, #0d2e5c, #071e3d);
+  border-right-color: var(--accent-green);
+  transform: translateX(-3px);
+}
+.accordion-content {
+  display: none;
+  background: #041224;
+  border: 1px solid #1b3a5b;
+  border-top: none;
+  padding: 16px 20px;
+  border-radius: 0 0 8px 8px;
+  font-size: 12.5px;
+  line-height: 1.9;
+  color: #ccd6f6;
+  animation: fadeIn 0.3s ease-in-out;
+}
+.accordion-content h4 { color: var(--accent-cyan); margin: 12px 0 6px 0; font-size: 13.5px; }
+.accordion-content ul, .accordion-content ol { padding-right: 20px; margin-bottom: 10px; }
+.accordion-content li { margin-bottom: 6px; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+.btn-icon { font-size: 13px; color: var(--accent-cyan); transition: transform 0.25s ease; }
+.active .btn-icon { transform: rotate(90deg); color: var(--accent-green); }
+</style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>🌊 UUAV-AI | پنل فرماندهی ناوبری و عملیات پهپاد زیرسطحی</h1>
-        <span class="badge">HIL SIMULINK CONNECTED</span>
+<div class="header">
+  <h1>🌊 UUAV-AI | پنل فرماندهی ناوبری و عملیات پهپاد زیرسطحی</h1>
+  <div class="badge">● HIL SIMULINK CORE ACTIVE</div>
+</div>
+
+<div class="grid-container">
+  <!-- وضعیت تله متری سنسورها -->
+  <div class="card">
+    <div class="card-title">تله‌متری دینامیک پرواز زیرسطحی و مانور</div>
+    <div class="metrics-grid">
+      <div class="metric-box">
+        <span>عمق عملیاتی غواصی:</span>
+        <strong id="depth">۱۲۴٫۶ متر</strong>
+      </div>
+      <div class="metric-box">
+        <span>سرعت پیشروی هیدرودینامیک:</span>
+        <strong>۱۸٫۴ گره دریایی</strong>
+      </div>
+      <div class="metric-box">
+        <span>فشار هیدرواستاتیک بدنه:</span>
+        <strong>۱۲٫۸ بار</strong>
+      </div>
+      <div class="metric-box">
+        <span>وضعیت سونار پسیو و INS:</span>
+        <strong style="color: var(--accent-green);">پایدار و قفل‌شده</strong>
+      </div>
     </div>
+    <button class="btn" onclick="triggerAction('DIVING')">🔻 مانور شیرجه سریع و تثبیت شناوری (Rapid Diving Maneuver)</button>
+    <button class="btn" onclick="triggerAction('OBSTACLE')">🛡️ فعال‌سازی مانور خودکار فرار از موانع بستر دریا (Obstacle Avoidance)</button>
+    <button class="btn btn-danger" onclick="triggerAction('EMERGENCY')">🚨 پروتکل اضطراری تخلیه بالاست و صعود ضربتی</button>
+  </div>
 
-    <div class="grid-container">
-        <div class="card">
-            <div class="card-title">تله‌متری دینامیکی و وضعیت ناوبری زیرسطحی</div>
-            <div class="metrics-grid">
-                <div class="metric-box">
-                    <span>عمق غوطه‌وری (Depth):</span>
-                    <strong id="depth">۱۲۴٫۶ متر</strong>
-                </div>
-                <div class="metric-box">
-                    <span>سرعت پیشروی (Speed):</span>
-                    <strong>۱۸٫۴ گره دریایی</strong>
-                </div>
-                <div class="metric-box">
-                    <span>فشار هیدرواستاتیک:</span>
-                    <strong>۱۲٫۸ بار</strong>
-                </div>
-                <div class="metric-box">
-                    <span>ناوبری تلفیقی (INS/Acoustic):</span>
-                    <strong style="color: var(--accent-green);">پایدار و قفل‌شده</strong>
-                </div>
-            </div>
-            <div style="background: #041224; border: 1px solid var(--border-ui); padding: 10px; border-radius: 6px; margin-top: 10px;">
-                <span style="font-size: 11px; color: var(--text-dim);">پایداری ماتریس هدایت غیرخطی ANFIS:</span>
-                <div style="font-size: 15px; font-weight: bold; color: var(--accent-cyan); margin-top: 4px;">۹۸٫۴٪ (خطای زاویه‌ای < ۰٫۰۲ رادیان)</div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">فرمان‌های تاکتیکی و مانور کنترل HIL</div>
-            <button class="btn" onclick="triggerAction('DIVING')">🔻 مانور شیرجه سریع و تثبیت شناوری (Rapid Diving Maneuver)</button>
-            <button class="btn" onclick="triggerAction('OBSTACLE')">🛡️ فعال‌سازی مانور خودکار فرار از موانع بستر دریا (Obstacle Avoidance)</button>
-            <button class="btn btn-danger" onclick="triggerAction('EMERGENCY')">🚨 پروتکل اضطراری تخلیه بالاست و صعود ضربتی</button>
-            <div class="console" id="logBox" style="margin-top: 10px;">
-                <div>[سیستم] اتصال بی‌درنگ به بلوک هیدرودینامیک ۶ درجه آزادی (6-DOF) برقرار است.</div>
-            </div>
-        </div>
+  <!-- لاگ فرامین و خروجی HIL -->
+  <div class="card">
+    <div class="card-title">ترمینال بلادرنگ فرامین ناوبری و ادغام سنسوری</div>
+    <div class="console" id="console-log">
+      [00:00:01] UUAV Core Online. INS/Acoustic Fusion locked.<br>
+      [00:00:02] Hydrodynamic parameters synced with 6-DOF Simulink block.<br>
+      [00:00:04] Ballast Control: Neutral buoyancy maintained.<br>
+      [00:00:05] Ready for telemetry ingestion from real-world edge controllers.
     </div>
+  </div>
+</div>
 
-    <!-- کادر اخطار رسمی ممانعت از کپی‌برداری -->
-    <div class="legal-box">
-        <h3>اخطار رسمی ممانعت از کپی‌برداری و پیاده‌سازی عملیاتی:</h3>
-        <p>هر زمان پل واقعی Simulink/HIL،سنسورهای لبه هوش مصنوعی فدرال متصل شود، سیستم آماده دریافت تله‌متری زنده خواهد بود.</p>
-        <p>به جهت ممانعت از کپی‌برداری غیرمجاز و حفظ الگوریتم‌های راهبردی، این داشبورد صرفاً به عنوان یک دموی عمومی با امکانات محدودشده (Protected Demo) بارگذاری شده است.</p>
-        <p>در صورت سفارش، این سامانه به شکلی اختصاصی بازطراحی و تحویل خواهد شد که با اتصال بی‌واسطه به لبه‌های واقعی سخت‌افزاری (Hardware-in-the-Loop - HIL)، سنسورهای آکوستیک، میکروکنترلرهای ناوبری، پایگاه استنتاج فازی ANFIS و بلوک‌های مدل‌سازی‌شده در Simulink، بهینه‌ترین و پایدارترین پاسخ دینامیکی و هدایتی را در شرایط عملیاتی زیرسطحی فراهم آورد.</p>
-    </div>
+<!-- کادر اخطار رسمی ممانعت از کپی‌برداری -->
+<div class="legal-box">
+  <h3>اخطار رسمی ممانعت از کپی‌برداری و پیاده‌سازی عملیاتی:</h3>
+  <p>هر زمان پل واقعی Simulink/HIL، سنسورهای لبه هوش مصنوعی فدرال و داده‌های آکوستیک زیرسطحی متصل شود، سیستم آماده دریافت و ناوبری زنده اطلاعات خواهد بود.</p>
+  <p>به جهت ممانعت از کپی‌برداری غیرمجاز و حفظ الگوریتم‌های راهبردی مانور غیرخطی، این داشبورد صرفاً به عنوان یک دموی عمومی با امکانات محدودشده (Protected Demo) بارگذاری شده است.</p>
+  <p>در صورت سفارش، این پلتفرم به شکلی اختصاصی بازطراحی و تحویل خواهد شد که با اتصال بی‌واسطه به لبه‌های واقعی سخت‌افزاری (Hardware-in-the-Loop - HIL)، پایگاه استنتاج فازی ANFIS و بلوک‌های مدل‌سازی‌شده ۶ درجه آزادی (6-DOF) در Simulink، پایدارترین پاسخ دینامیکی، هدایتی و ضدسونار را در ماموریت‌های پیچیده زیرسطحی فراهم آورد.</p>
+</div>
 
-    <div class="footer-card">
-        <p>طراحی و توسعه مهندسی: <strong>حسین لعلیان؛ رتبه ۳۲ کنکور دکتری</strong></p>
-        <p>رایانامه رسمی ارتباطات صنعتی: <code>ai.algorithms.ballistics@gmail.com</code></p>
-    </div>
+<!-- پاورقی و شناسنامه سازنده -->
+<div class="footer-card">
+  طراحی و توسعه مهندسی: <strong>حسین لعلیان؛ رتبه ۳۲ کنکور دکتری</strong> (برگرفته از پرپوزال سال ۱۳۹۵)<br>
+  رایانامه رسمی ارتباطات صنعتی و دفاعی: <code>ai.algorithms.ballistics@gmail.com</code>
+</div>
 
-    <script>
-        function triggerAction(type) {
-            const log = document.getElementById('logBox');
-            const time = new Date().toLocaleTimeString('fa-IR');
-            let text = "";
-            if(type === 'DIVING') text = `[${time}] زاویه سکان‌های افقی تنظیم شد. اعمال نرخ فرود ۱٫۵ متر بر ثانیه بر اساس مدل فازی.`;
-            else if(type === 'OBSTACLE') text = `[${time}] هدف بستر آکوستیک در برد ۳۰۰ متری سنس شد. انحراف مسیر با زاویه ۱۵ درجه به چپ اعمال گردید.`;
-            else if(type === 'EMERGENCY') text = `[${time}] هشدار فشار بیش‌ازحد! شیرهای بالاست سریع باز شدند. مانور صعود با حداکثر زاویه حمله فعال شد.`;
-            const item = document.createElement('div');
-            item.innerText = text;
-            log.appendChild(item);
-            log.scrollTop = log.scrollHeight;
-        }
-    </script>
+<!-- ۵ دکمه تعاملی تخصصی پهپاد زیرسطحی -->
+<div class="interactive-section">
+
+  <!-- دکمه ۱ -->
+  <button class="accordion-btn" onclick="toggleAccordion(this)">
+    <span>🔘 دکمه ۱: این دکمه را بفشار تا متصل شوی به طرح توجیهی عملیاتی این پلتفرم!</span>
+    <span class="btn-icon">◀</span>
+  </button>
+  <div class="accordion-content">
+    <h4>پایش خودکار زیرسطحی، کاهش ریسک ماموریت و مدیریت هوشمند انرژی پیشران</h4>
+    <p><strong>معرفی سامانه فرماندهی، ناوبری هوشمند و دیسپاچینگ انرژی پهپاد زیرسطحی (UUAV-AI):</strong></p>
+    <p>عملیات‌های دریایی و کاوش‌های اعماق آب همواره با دو چالش و تهدید حیاتی روبرو هستند:</p>
+    <ul>
+      <li><strong>۱. نابودی یا مفقود شدن شناور در اثر خطای ناوبری:</strong> قطع سیگنال GPS در زیر آب، خطای تجمیعی سنسورهای اینرسی (IMU Drift) و برخورد با عوارض ناهموار کف دریا یا موانع متحرک.</li>
+      <li><strong>۲. تخلیه زودهنگام ذخایر انرژی و توقف پیشران:</strong> تخصیص غیربهینه توان الکتریکی میان سیستم‌های کشف سونار، تثبیت بالاست و موتورهای تراستر که منجر به عدم اتمام ماموریت یا زمین‌گیر شدن شناور می‌گردد.</li>
+    </ul>
+    <p><strong>راهکار عملیاتی:</strong> پیاده‌سازی مغز متفکر نرم‌افزاری بلادرنگ درون شناور جهت ناوبری تطبیقی با تلفیق فازی سنسورها، تصحیح خودکار زاویه حمله، تثبیت شناوری خنثی و مدیریت بهینه شارژ باتری با الگوریتم‌های هوش مصنوعی لبه (Edge-AI).</p>
+    <h4>این داشبورد روی پهپاد زیرسطحی چه کاری انجام می‌دهد؟</h4>
+    <ul>
+      <li><strong>فرار هوشمند از موانع و مهار برخورد (Obstacle Collision Avoidance):</strong> پردازش بی‌درنگ داده‌های سونار و آکوستیک جهت اصلاح بردار پیشران در کمتر از ۲۰ میلی‌ثانیه بدون نیاز به فرمان کاربر انسانی.</li>
+      <li><strong>تخصیص بهینه و صرفه‌جویانه توان باتری:</strong> تقسیم هوشمند انرژی بین سامانه‌های اسکن، تجهیزات مخابرات آکوستیک و موتور پیشران به منظور افزایش برد عملیاتی تا بیش از ۴۵ درصد.</li>
+    </ul>
+  </div>
+
+  <!-- دکمه ۲ -->
+  <button class="accordion-btn" onclick="toggleAccordion(this)">
+    <span>🔘 دکمه ۲: این دکمه را بفشار تا متصل شوی به مکانیزم کاری و ارزش پیشنهادی!</span>
+    <span class="btn-icon">◀</span>
+  </button>
+  <div class="accordion-content">
+    <p><strong>مسئله روز صنایع دریایی و دفاعی:</strong> شرایط غیرقابل پیش‌بینی هیدرودینامیک، عدم دسترسی به ماهواره در عمق، تلاطم جریان‌های لایه‌ای آب و خطر گیر افتادن شناور در موانع طبیعی بستر دریا.</p>
+    <h4>راهکار سامانه UUAV-AI:</h4>
+    <ul>
+      <li><strong>دیده‌بانی ۶ درجه آزادی (6-DOF):</strong> پایش و مدل‌سازی آنی متغیرهای رول، پیچ، یاو، نرخ غوطه‌وری، تنش پوسته زیر فشار بالا و پروفایل حرارتی تراسترها.</li>
+      <li><strong>حذف خطای موقعیت‌یابی زیرآب:</strong> ادغام سنسوری داده‌های INS، شتاب‌سنج‌ها و سرعت‌سنج داپلر آکوستیک (DVL) با شبکه عصبی-فازی جهت جلوگیری از انحراف مسیر.</li>
+      <li><strong>مدیریت توان دینامیکی پیشران:</strong> بهینه‌سازی سرعت زاویه‌ای ملخ‌ها متناسب با جریان آب مخالف جهت پیشگیری از اتلاف شارژ باتری و تضمین بازگشت ایمن به پایگاه.</li>
+      <li><strong>ارتباط مستقیم صنعتی و دریایی:</strong> قابلیت تبادل دیتا از طریق باس‌های استاندارد CAN-Bus دریایی، استانداردهای NMEA 2000 و ارتباط با بستر HIL/Simulink جهت آزمایش‌های زمینی پیش از غواصی واقعی.</li>
+    </ul>
+  </div>
+
+  <!-- دکمه ۳ -->
+  <button class="accordion-btn" onclick="toggleAccordion(this)">
+    <span>🔘 دکمه ۳: این دکمه را بفشار تا متصل شوی به مسیر عملیاتی این پنل!</span>
+    <span class="btn-icon">◀</span>
+  </button>
+  <div class="accordion-content">
+    <ul>
+      <li><strong>دیده‌بانی چندمنظوره هیدروآکوستیک:</strong> سیستم در هر میلی‌ثانیه عمق، چگالی آب، فشار بیرونی، مصرف جریان موتور و سلامت باتری‌ها را رصد می‌کند.</li>
+      <li><strong>الگوریتم مانور گریز و تثبیت شناوری:</strong> در صورت کشف مانع ناگهانی یا تغییر ناگهانی جریان آب، سیستم به صورت خودکار سکان‌های افقی و عمودی را زاویه داده و مخازن بالاست را جهت تثبیت در عمق تنظیم می‌نماید.</li>
+      <li><strong>مسیرگزینی بهینه با حداقل مصرف انرژی:</strong> مشخص می‌کند پهپاد با چه پروفایل سرعتی و در چه لایه عمقی از آب حرکت کند تا کمترین مقاومت اصطکاکی و کمترین مصرف انرژی حاصل گردد.</li>
+      <li><strong>خروجی آماده فرماندهی:</strong> این پنل مجهز به واسط‌های مستقیم جهت ارسال فرمان به سرووموتورها، درایورهای موتور براشلس (ESC)، پمپ‌های تخلیه بالاست و رله‌های ایمنی پیروتکنیک است.</li>
+    </ul>
+  </div>
+
+  <!-- دکمه ۴ -->
+  <button class="accordion-btn" onclick="toggleAccordion(this)">
+    <span>🔘 دکمه ۴: این دکمه را بفشار تا متصل شوی به نکات کلیدی قرارداد!</span>
+    <span class="btn-icon">◀</span>
+  </button>
+  <div class="accordion-content">
+    <ol>
+      <li><strong>محدوده مسئولیت (Disclaimer):</strong> قید می‌شود که دقت فرامین به صحت عملکرد سنسورهای فیزیکی (مانند ترانسدیوسر سونار، بارومتر عمق‌سنج و IMU) وابسته است و خرابی‌های مکانیکی بدنه، نشتی فیزیکی آب یا نقص پیشرانه در مسئولیت هسته کنترلی نرم‌افزار نمی‌باشد.</li>
+      <li><strong>محرمانگی و امنیت سایبری صنعتی (NDA):</strong> الگوهای ناوبری، کتابخانه هیدروآکوستیک و داده‌های تله‌متری ماموریت کاملاً سری و طبقه‌بندی‌شده بوده و معماری نرم‌افزار ایزوله از شبکه اینترنت آزاد طراحی شده است.</li>
+      <li><strong>فاز پایلوت در محیط شبیه‌سازی (HIL Pilot):</strong> قرارداد شامل فاز آزمایشی ۱ ماهه شبیه‌سازی بلادرنگ با نرم‌افزار Simulink و تست در مخزن آب آزمایشی با معیارهای ارزیابی (KPI مانند دقت بازگشت به مسیر و مصرف بهینه باتری) خواهد بود.</li>
+    </ol>
+  </div>
+
+  <!-- دکمه ۵ -->
+  <button class="accordion-btn" onclick="toggleAccordion(this)">
+    <span>🔘 دکمه ۵: بفشار این دکمه را تا متصل شوی به مدل‌های پیشنهادی ما!</span>
+    <span class="btn-icon">◀</span>
+  </button>
+  <div class="accordion-content">
+    <h4>مدل اول: قرارداد توسعه سفارشی و تحویل سامانه ناوبری خودکار (R&D Turnkey Contract)</h4>
+    <p>توسعه و ادغام کامل هسته کنترلی روی سخت‌افزار لبه و کامپیوتر پرواز شناور کارفرما؛ تنظیم تخصصی ضرایب ماتریس هیدرودینامیکی برای هندسه بدنه پهپاد شما همراه با انجام تست‌های آبی و کالیبراسیون سنسورها به صورت پروژه کامل.</p>
+    
+    <h4>مدل دوم: واگذاری لایسنس نرم‌افزاری ماژولار (Core Autopilot License + Technical Support)</h4>
+    <p>ارائه لایسنس ماژول‌های ناوبری، الگوریتم‌های فرار از مانع و دیسپاچینگ توان به صورت پکیج نرم‌افزاری مستقل با قابلیت نصب روی پردازنده‌های استاندارد صنعتی (ARM/Jetson) به همراه پشتیبانی و ارتقای فریم‌ور سالیانه.</p>
+  </div>
+
+</div>
+
+<script>
+function triggerAction(type) {
+  const log = document.getElementById('console-log');
+  const item = document.createElement('div');
+  const now = new Date().toLocaleTimeString('fa-IR');
+  
+  if(type === 'DIVING') {
+    item.innerHTML = `[${now}] <span style="color:#00ff88;">[MANEUVER]</span> مانور شیرجه و تنظیم زاویه بالک با موفقیت صادر شد.`;
+    document.getElementById('depth').innerText = (parseFloat(document.getElementById('depth').innerText) + 5.2).toFixed(1) + ' متر';
+  } else if(type === 'OBSTACLE') {
+    item.innerHTML = `[${now}] <span style="color:#f59e0b;">[AVOIDANCE]</span> الگوریتم گریز خودکار فعال شد؛ تغییر بردار رانش به استاربرد.`;
+  } else if(type === 'EMERGENCY') {
+    item.innerHTML = `[${now}] <span style="color:#ff3366;">[EMERGENCY]</span> تخلیه اضطراری مخازن بالاست فعال گردید! صعود سریع آغاز شد.`;
+  }
+  
+  log.appendChild(item);
+  log.scrollTop = log.scrollHeight;
+}
+
+function toggleAccordion(btn) {
+  btn.classList.toggle("active");
+  const content = btn.nextElementSibling;
+  if (content.style.display === "block") {
+    content.style.display = "none";
+  } else {
+    content.style.display = "block";
+  }
+}
+</script>
+
 </body>
 </html>
